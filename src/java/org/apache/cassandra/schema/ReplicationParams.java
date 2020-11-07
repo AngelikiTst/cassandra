@@ -51,6 +51,11 @@ public final class ReplicationParams
         return new ReplicationParams(SimpleStrategy.class, ImmutableMap.of("replication_factor", Integer.toString(replicationFactor)));
     }
 
+    static ReplicationParams customReplicationStrategy(int replicationFactor)
+    {
+        return new ReplicationParams(CustomRS.class, ImmutableMap.of("replication_factor", Integer.toString(replicationFactor)));
+    }
+
     static ReplicationParams nts(Object... args)
     {
         assert args.length % 2 == 0;
@@ -78,6 +83,7 @@ public final class ReplicationParams
     {
         Map<String, String> options = new HashMap<>(map);
         String className = options.remove(CLASS);
+        System.out.print(className);
         Class<? extends AbstractReplicationStrategy> klass = AbstractReplicationStrategy.getClass(className);
         return new ReplicationParams(klass, options);
     }
